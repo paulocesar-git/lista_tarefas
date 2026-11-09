@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Tarefas</title>
+</head>
+<body>
+  <h1>Lista de Tarefas</h1>
+
+  <a href="{% url 'criar_tarefa' %}">+ Nova tarefa</a>
+
+  <p>
+    Filtrar:
+    <a href="{% url 'lista_tarefas' %}?status=todas">Todas</a> |
+    <a href="{% url 'lista_tarefas' %}?status=pendentes">Pendentes</a> |
+    <a href="{% url 'lista_tarefas' %}?status=concluidas">Concluídas</a>
+  </p>
+
+  <ul>
+    {% for tarefa in tarefas %}
+      <li>
+        <strong>{{ tarefa.titulo }}</strong> —
+        {{ tarefa.get_prioridade_display }} —
+        {% if tarefa.concluida %}Concluída{% else %}Pendente{% endif %}
+        |
+        <a href="{% url 'detalhe_tarefa' tarefa.pk %}">Detalhes</a>
+        <a href="{% url 'editar_tarefa' tarefa.pk %}">Editar</a>
+        <a href="{% url 'excluir_tarefa' tarefa.pk %}">Excluir</a>
+      </li>
+    {% empty %}
+      <li>Nenhuma tarefa encontrada.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

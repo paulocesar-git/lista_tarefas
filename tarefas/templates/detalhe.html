@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ tarefa.titulo }}</title>
+</head>
+<body>
+  <h1>{{ tarefa.titulo }}</h1>
+
+  <p><strong>Descrição:</strong> {{ tarefa.descricao|default:"Sem descrição" }}</p>
+  <p><strong>Prioridade:</strong> {{ tarefa.get_prioridade_display }}</p>
+  <p><strong>Status:</strong> {% if tarefa.concluida %}Concluída{% else %}Pendente{% endif %}</p>
+  <p><strong>Criada em:</strong> {{ tarefa.criada_em|date:"d/m/Y H:i" }}</p>
+
+  <form method="post" action="{% url 'alternar_tarefa' tarefa.pk %}">
+    {% csrf_token %}
+    <button type="submit">
+      {% if tarefa.concluida %}Marcar como pendente{% else %}Marcar como concluída{% endif %}
+    </button>
+  </form>
+
+  <a href="{% url 'editar_tarefa' tarefa.pk %}">Editar</a>
+  <a href="{% url 'excluir_tarefa' tarefa.pk %}">Excluir</a>
+  <a href="{% url 'lista_tarefas' %}">Voltar para a lista</a>
+</body>
+</html>
